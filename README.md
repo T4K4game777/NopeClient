@@ -1,2 +1,4 @@
 # NopeClient
-MInecraft Bedrock PVP client
+Minecraft Bedrock PVP client
+
+Solstice skid
