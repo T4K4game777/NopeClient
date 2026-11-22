@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Send Discord notification
-        uses: sillyangel/releases-to-discord@v1.0.0
+        uses: sillyangel/releases-to-discord@v1
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           username: "NopeClient"
