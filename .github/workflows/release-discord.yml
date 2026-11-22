@@ -1,0 +1,17 @@
+name: Discord Release Notification
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord notification
+        uses: sillyangel/releases-to-discord@v1.0.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: "NopeClient"
+          color: "2105893"
