@@ -10,8 +10,27 @@ jobs:
 
     steps:
       - name: Send Discord notification
-        uses: sillyangel/releases-to-discord@v1
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          username: "NopeClient"
-          color: "2105893"
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          TITLE="${RELEASE_NAME:-Release $RELEASE_TAG}"
+          PAYLOAD=$(jq -n \
+            --arg username "Nope Client" \
+            --arg title "$TITLE" \
+            --arg url "$RELEASE_URL" \
+            --arg desc "$RELEASE_BODY" \
+            --argjson color 2105893 \
+            '{
+              username: $username,
+              embeds: [{
+                title: $title,
+                url: $url,
+                description: $desc,
+                color: $color
+              }]
+            }')
+          curl -f -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
